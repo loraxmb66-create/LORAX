@@ -1,30 +1,243 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Network & IP Checker</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      /* For a smoother dark mode transition */
-      body {
-        transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hồ Sơ Cá Nhân</title>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --bg-color: #f4f6f8;
+      --text-color: #2c3e50;
+      --light: #ecf0f1;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      background: #fff;
+      max-width: 900px;
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    header {
+      background: var(--primary-color);
+      color: #fff;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    nav {
+      display: flex;
+      background: #ddd;
+    }
+
+    nav button {
+      flex: 1;
+      padding: 1rem;
+      background: var(--light);
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background 0.3s;
+    }
+
+    nav button.active {
+      background: #fff;
+      font-weight: bold;
+      border-bottom: 3px solid var(--primary-color);
+    }
+
+    .tab-content {
+      display: none;
+      padding: 1.5rem;
+      animation: fadeIn 0.3s ease-in-out;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .info-box {
+      background: var(--light);
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #999;
+      background: #fafafa;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-direction: column;
       }
-    </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.1.1",
-    "react-dom/": "https://esm.sh/react-dom@^19.1.1/",
-    "react/": "https://esm.sh/react@^19.1.1/",
-    "@google/genai": "https://esm.sh/@google/genai"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+
+      nav button {
+        border-bottom: 1px solid #ccc;
+      }
+    }
+  </style>
 </head>
-  <body class="bg-gray-100 dark:bg-gray-900">
-    <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>👤 Hồ sơ cá nhân</h1>
+      <p id="time">Đang cập nhật thời gian...</p>
+    </header>
+
+    <nav>
+      <button class="tab-btn active" data-tab="intro">Giới thiệu</button>
+      <button class="tab-btn" data-tab="example">Ví dụ</button>
+      <button class="tab-btn" data-tab="skills">Sở trường</button>
+      <button class="tab-btn" data-tab="work">Công việc</button>
+      <button class="tab-btn" data-tab="contact">Liên hệ</button>
+    </nav>
+
+    <div id="intro" class="tab-content active">
+      <div class="info-box">
+        <p>Chào bạn! Mình là <strong>[Tên của bạn]</strong>, đam mê phát triển phần mềm và công nghệ web. Mình thích xây dựng các ứng dụng gọn gàng, dễ dùng và thân thiện với người dùng.</p>
+      </div>
+      <div class="info-box">
+        <div class="label">👁️ Số lượt truy cập:</div>
+        <div id="visits">Đang tải...</div>
+      </div>
+      <div class="info-box">
+        <div class="label">🌐 IP của bạn:</div>
+        <div id="ip">Đang tải...</div>
+      </div>
+    </div>
+
+    <div id="example" class="tab-content">
+      <div class="info-box">
+        <p>Dưới đây là một vài ví dụ về các dự án mình từng thực hiện:</p>
+        <ul>
+          <li>🌐 Website bán hàng mini (HTML, CSS, JS)</li>
+          <li>📱 Ứng dụng To-Do List (React)</li>
+          <li>📊 Dashboard thống kê nội bộ (VueJS + Firebase)</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="skills" class="tab-content">
+      <div class="info-box">
+        <p><strong>Kỹ năng chính:</strong></p>
+        <ul>
+          <li>🔧 HTML, CSS, JavaScript (ES6+)</li>
+          <li>⚛️ ReactJS, VueJS</li>
+          <li>🗃️ Firebase, REST APIs</li>
+          <li>🎨 UI/UX cơ bản, thiết kế Flat & Responsive</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="work" class="tab-content">
+      <div class="info-box">
+        <p>Hiện tại mình đang làm tại <strong>[Tên công ty]</strong> với vị trí <strong>Frontend Developer</strong>.</p>
+        <p>Công việc chính:</p>
+        <ul>
+          <li>Phát triển giao diện người dùng</li>
+          <li>Kết nối API và tối ưu hiệu năng</li>
+          <li>Hỗ trợ team thiết kế & backend</li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="contact" class="tab-content">
+      <div class="info-box">
+        <p><strong>Email:</strong> <a href="mailto:you@example.com">you@example.com</a></p>
+        <p><strong>LinkedIn:</strong> <a href="https://linkedin.com/in/yourprofile" target="_blank">linkedin.com/in/yourprofile</a></p>
+        <p><strong>GitHub:</strong> <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a></p>
+      </div>
+    </div>
+
+    <footer>© 2025 [Tên của bạn] • Hồ sơ cá nhân</footer>
+  </div>
+
+  <script>
+    // Cập nhật thời gian mỗi giây
+    function updateTime() {
+      const now = new Date();
+      document.getElementById("time").textContent = now.toLocaleString("vi-VN");
+    }
+    setInterval(updateTime, 1000);
+    updateTime();
+
+    // Đếm số lượt truy cập (localStorage)
+    const visitsKey = "visitCount";
+    let count = localStorage.getItem(visitsKey) || 0;
+    count++;
+    localStorage.setItem(visitsKey, count);
+    document.getElementById("visits").textContent = count;
+
+    // Lấy địa chỉ IP người dùng
+    fetch("https://api.ipify.org?format=json")
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById("ip").textContent = data.ip;
+      })
+      .catch(() => {
+        document.getElementById("ip").textContent = "Không thể lấy IP.";
+      });
+
+    // Xử lý chuyển tab
+    const tabButtons = document.querySelectorAll(".tab-btn");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        tabButtons.forEach(b => b.classList.remove("active"));
+        tabContents.forEach(c => c.classList.remove("active"));
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+  </script>
 </body>
 </html>
